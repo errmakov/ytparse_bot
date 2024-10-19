@@ -24,6 +24,5 @@ sudo docker build -t ytextractor-runtime -f Dockerfile.runtime .
 Adjust external ports and envs on your own:       
 ```
 cd /path/to/folder   
-sudo docker run --name ytextractor_bot -p 3032:3030 -v $(pwd)/dist/ytextractor-rust:/app/ytextractor-rust -e TELOXIDE_TOKEN=your_bot_telegram_api_token -e OPENAI_TOKEN=sk-svcacct-your_openai_api_organisation_token -e RUST_LOG=info -e ENVIRONMENT=production -e WEBHOOK_URL=https://yourhost --restart unless-stopped ytextractor-runtime:latest
+sudo docker run --name ytextractor_bot -p 3032:3030 -v $(pwd)/dist/ytextractor-rust:/app/ytextractor-rust -e TELOXIDE_TOKEN=your_bot_telegram_api_token -e OPENAI_TOKEN=sk-svcacct-your_openai_api_organisation_token -e RUST_LOG=info -e ENVIRONMENT=production -e WEBHOOK_URL=https://yourhost --restart unless-stopped -d ytextractor-runtime:latest
 ```
-
