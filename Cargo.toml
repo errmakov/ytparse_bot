@@ -1,0 +1,27 @@
+[package]
+name = "ytextractor-rust"
+version = "0.1.0"
+edition = "2021"
+resolver = "2" 
+
+
+[[bin]]
+name = "ytextractor-rust"
+path = "src/bot.rs"
+
+[dependencies]
+teloxide = { version = "0.13", features = ["macros"] }
+log = "0.4"
+chrono = "0.4"
+tokio = { version =  "1.8", features = ["rt-multi-thread", "macros"] }
+warp = { version = "0.3.7", features = ["tls", "tokio-rustls", "compression", "compression-brotli", "compression-gzip", "async-compression"] }
+pretty_env_logger = "0.5.0"
+url = "2.5.2"
+serde = "1.0.210"
+serde_json = "1.0.128"
+bytes = "1.7.2"
+regex = "1.11.0"
+uuid = { version = "1.10", features = ["v4"] }
+fs = "0.0.5"
+futures = "0.3.31"
+openai = "1.0.0-alpha.16"
