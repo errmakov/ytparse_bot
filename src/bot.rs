@@ -115,7 +115,7 @@ async fn run_webhook(bot: Bot, port: u16) {
 
 async fn run_polling(bot: Bot) {
     log::info!("Running in polling mode...");
-    let rate_limiter = rate_limiter::RateLimiterWrapper::new(100, 1000, 10000); // 100 RPM, 1000 RPD, 10000 TPM
+    let rate_limiter = rate_limiter::RateLimiterWrapper::new(100, 1000, 200000); 
     let rl_wrap_clone = rate_limiter.clone();
     teloxide::repl(bot, move |bot_clone: Bot, msg: Message| {
         let rl_wrap_clone = rl_wrap_clone.clone();
@@ -194,7 +194,13 @@ async fn process_message(bot: &Bot, msg: Message, rl_wrap: &rate_limiter::RateLi
             bot.send_message(msg.chat.id, format!("Language: {}", lang))
                 .await
                 .unwrap();
-            let books = extract_json::extract_json(&file_name, &env::var("OPENAI_TOKEN").unwrap(), rl_wrap).await?;
+            let books = match extract_json::extract_json(&file_name, &env::var("OPENAI_TOKEN").unwrap(), rl_wrap).await {
+                Ok(books) => books,
+                Err(err) => {
+                    log::error!("Error extracting JSON: {:?}", err);
+                    return Ok(());
+                }
+            };
             
             if books.len() == 0 {
                 bot.send_message(msg.chat.id, "No books or authors found in the video.")
